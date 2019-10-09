@@ -4,12 +4,12 @@ import os
 import subprocess
 
 parser = argparse.ArgumentParser(description='')
-parser.add_argument('repopath', metavar='repopath', type=str, nargs=1,
+parser.add_argument('repopath', type=str, nargs=1,
                     help='path to the git repo')
-parser.add_argument('paths', metavar='paths', type=str, nargs='+',
+parser.add_argument('paths', type=str, nargs='+',
                     help='paths within the git repo to filter out from a repo into a new repo')
-parser.add_argument('--newroot', metavar='newroot', type=str,
-                    help='strip away this path from the newroot')
+parser.add_argument('--strippath', type=str,
+                    help='strip away this path from the new root')
 
 args = parser.parse_args()
 
@@ -26,13 +26,13 @@ for key in files_to_move.keys():
    files_to_move[key] = vals
 os.chdir(wd)
 
-if args.newroot:
+if args.strippath:
     old_files = files_to_move
     files_to_move = {}
     for key, vals in old_files.items():
-        if str(key).find(args.newroot) != 0:
-            raise RuntimeError("given paths within repo are not compatible for a newroot")
-        newkey = str(key)[len(args.newroot):]
+        newkey = str(key)
+        if str(key).find(args.strippath) == 0:
+            newkey = str(key)[len(args.strippath):]
         newkey = "newroot/" + newkey.strip("/")
         files_to_move[newkey] = vals
 
