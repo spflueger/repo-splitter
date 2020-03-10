@@ -1,3 +1,6 @@
+### Note
+It is adviced to use [git filter-repo](https://github.com/newren/git-filter-repo) instead of git filter-branch (which is also used in this repo)
+
 ### How to use
 
 This script helps moving specific files from one repo into new one (including full history)
